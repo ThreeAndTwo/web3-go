@@ -100,7 +100,9 @@ func New(url string) (*HTTPProvider, error) {
 // NewWithLoader initializes a Client with a specified loader and returns it
 func NewWithLoader(url string, loader RPCLoader) (*HTTPProvider, error) {
 	var httpClient = &http.Client{
-		Transport: &http.Transport{},
+		Transport: &http.Transport{
+			DisableKeepAlives: false,
+		},
 		Timeout:   DefaultHTTPTimeout,
 	}
 

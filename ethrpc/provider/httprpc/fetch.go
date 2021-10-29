@@ -2,7 +2,6 @@ package httprpc
 
 import (
 	"bytes"
-	"context"
 	"io/ioutil"
 	"net/http"
 
@@ -41,24 +40,19 @@ func (p *HTTPProvider) fetchMultiple(requests []*jsonrpc2.JSONRPCRequest) ([][]b
 
 func (p *HTTPProvider) fetch(payload []byte) ([]byte, error) {
 	httpRequest, err := http.NewRequest("POST", p.url, bytes.NewReader(payload))
-	ctx, cancelFunc := context.WithCancel(context.Background())
 	if err != nil {
 		return nil, err
 	}
 	defer httpRequest.Body.Close()
 
-	httpRequest = httpRequest.WithContext(ctx)
 	httpRequest.Header.Add("Content-Type", "application/json")
 
-	p.client = &http.Client{}
 	response, err := p.client.Do(httpRequest)
 
-	//response, err := p.client.Do(httpRequest)
 	if err != nil {
 		return nil, err
 	}
 
-	defer cancelFunc()
 	responseBody, err := ioutil.ReadAll(response.Body)
 	response.Body.Close()
 	if err != nil {
