@@ -2,6 +2,7 @@ package jsonrpc2
 
 import (
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"strconv"
 )
@@ -41,6 +42,7 @@ func NewRequest(method string, args interface{}, id string) *JSONRPCRequest {
 // DecodeResponse decodes the top level json rpc response for a single rpc call
 func DecodeResponse(response []byte) (*JSONRPCMessage, error) {
 	var message JSONRPCMessage
+	fmt.Printf("response: %s \n", string(response))
 	message.Raw = response
 	if err := json.Unmarshal(response, &message); err != nil {
 		return nil, DecodeError{response, err}

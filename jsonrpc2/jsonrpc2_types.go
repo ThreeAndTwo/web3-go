@@ -8,7 +8,7 @@ import (
 
 // JSONRPCError : standard JSONRPC Error
 type JSONRPCError struct {
-	Code    int    `json:"code"`
+	Code    int    `json:"code,omitempty"`
 	Message string `json:"message"`
 	Data    string `json:"data,omitempty"`
 }
